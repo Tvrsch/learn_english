@@ -1,5 +1,7 @@
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-
+@api_view(['GET', 'POST'])
 def get_routes(request):
-    return JsonResponse('Hello', safe=False)
+    example_json = {"abc": "ABC", "def": "DEF", "jko": "JKO"}
+    return Response(example_json)

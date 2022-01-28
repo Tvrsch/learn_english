@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import Student, Presentation, StudentProgress, HomeworkParagraph
 
-# Register your models here.
+admin.site.register([Student, Presentation, StudentProgress, HomeworkParagraph])
