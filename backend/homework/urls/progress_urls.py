@@ -3,5 +3,5 @@ from homework.views import progress_views as views
 
 
 urlpatterns = [
-    path('', views.get_student_progress, name='student progress'),
+    path('<str:pk>/', views.get_student_progress, name='student progress'),
 ]

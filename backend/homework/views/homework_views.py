@@ -17,3 +17,28 @@ def get_homework_paragraphs(request):
 
     serializer = HomeworkParagraphSerializer(homework_paragraphs, many=True)
     return Response(serializer.data)
+
+
+@api_view(["POST"])
+def add_homework_paragraph(request, pk):
+    presentation = Presentation.objects.get(id=pk)
+    paragraph = Presentation.objects.create(
+        name="Sample Name",
+        book="Sample Book",
+        total_slides=0,
+        diff_level="Unknown",
+    )
+    serializer = HomeworkParagraphSerializer(presentation, many=False)
+    return Response(serializer.data)
+
+
+@api_view(["PUT"])
+def update_homework_paragraph(request, pk):
+    data = request.data
+
+    paragraph = Presentation.objects.get(id=pk)
+    paragraph.total_slides = data.get("total_slides")
+    paragraph.save()
+
+    serializer = HomeworkParagraphSerializer(paragraph, many=False)
+    return Response(serializer.data)
