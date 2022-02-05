@@ -5,8 +5,10 @@ from homework.serializers import StudentProgressSerializer
 
 
 @api_view(["GET"])
-def get_student_progress(request, pk):
-    student = Student.objects.get(id=pk)
+def get_student_progress(request):
+    student_id = request.query_params.get("student_id")
+
+    student = Student.objects.get(id=student_id)
 
     student_progress = StudentProgress.objects.filter(student=student)
 
@@ -17,9 +19,8 @@ def get_student_progress(request, pk):
 @api_view(["POST"])
 def add_student_progress(request):
     data = request.data
-
-    student = Student.objects.get(id__exact=data.get("student_id"))
-    presentation = Presentation.objects.get(id__exact=data.get("presentation_id"))
+    student = Student.objects.get(id=data.get("student_id"))
+    presentation = Presentation.objects.get(id=data.get("presentation_id"))
 
     progress = StudentProgress.objects.create(
         student=student,
@@ -38,3 +39,13 @@ def update_student_progress(request, pk):
 
     serializer = StudentProgressSerializer(progress, many=False)
     return Response(serializer.data)
+
+
+@api_view(["DELETE"])
+def delete_student_progress(request, pk):
+    progress = StudentProgress.objects.get(id=pk)
+    student = progress.student
+    presentation = progress.presentation
+    progress.delete()
+
+    return Response(f"Progress of {student} on {presentation} was deleted")

@@ -31,7 +31,7 @@ def update_presentation(request, pk):
     presentation.name = data.get("name")
     presentation.book = data.get("book")
     presentation.total_slides = data.get("total_slides")
-    presentation.diff_level = data.get('diff_level')
+    presentation.diff_level = data.get("diff_level")
 
     presentation.save()
 

@@ -29,7 +29,7 @@ def update_student(request, pk):
 
     student.name = data.get("name")
     student.mail = data.get("mail")
-    student.diff_level = data.get('diff_level')
+    student.diff_level = data.get("diff_level")
 
     student.save()
 

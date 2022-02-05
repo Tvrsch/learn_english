@@ -8,47 +8,118 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Presentation',
+            name="Presentation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('book', models.CharField(blank=True, max_length=200, null=True)),
-                ('total_slides', models.IntegerField(default=0)),
-                ('diff_level', models.CharField(blank=True, max_length=100, null=True)),
-                ('picture', models.ImageField(blank=True, default='/presentation-placeholder.png', null=True, upload_to='')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                ("book", models.CharField(blank=True, max_length=200, null=True)),
+                ("total_slides", models.IntegerField(default=0)),
+                ("diff_level", models.CharField(blank=True, max_length=100, null=True)),
+                (
+                    "picture",
+                    models.ImageField(
+                        blank=True,
+                        default="/presentation-placeholder.png",
+                        null=True,
+                        upload_to="",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Student',
+            name="Student",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('mail', models.CharField(max_length=100)),
-                ('diff_level', models.CharField(blank=True, max_length=100, null=True)),
-                ('picture', models.ImageField(blank=True, default='/student-placeholder.png', null=True, upload_to='')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                ("mail", models.CharField(max_length=100)),
+                ("diff_level", models.CharField(blank=True, max_length=100, null=True)),
+                (
+                    "picture",
+                    models.ImageField(
+                        blank=True,
+                        default="/student-placeholder.png",
+                        null=True,
+                        upload_to="",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='StudentProgress',
+            name="StudentProgress",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('current_slide', models.IntegerField(blank=True, default=0, null=True)),
-                ('presentation', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='homework.presentation')),
-                ('student', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='homework.student')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "current_slide",
+                    models.IntegerField(blank=True, default=0, null=True),
+                ),
+                (
+                    "presentation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="homework.presentation",
+                    ),
+                ),
+                (
+                    "student",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="homework.student",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='HomeworkParagraph',
+            name="HomeworkParagraph",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task_text', models.TextField(blank=True, null=True)),
-                ('slides_required', models.IntegerField(default=0)),
-                ('presentation', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='homework.presentation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("task_text", models.TextField(blank=True, null=True)),
+                ("slides_required", models.IntegerField(default=0)),
+                (
+                    "presentation",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="homework.presentation",
+                    ),
+                ),
             ],
         ),
     ]

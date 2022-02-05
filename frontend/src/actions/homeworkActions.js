@@ -58,7 +58,7 @@ export const listProgress = (id) => async (dispatch) => {
     try {
         dispatch({ type: GET_PROGRESS_REQUEST });
 
-        const { data } = await axios.get(`/student_progress/?id=${id}`);
+        const { data } = await axios.get(`/progress/?student_id=${id}`);
 
         dispatch({
             type: GET_PROGRESS_SUCCESS,

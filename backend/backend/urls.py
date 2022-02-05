@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('homework/', include('homework.urls.homework_urls')),
-    path('presentations/', include('homework.urls.presentation_urls')),
-    path('progress/', include('homework.urls.progress_urls')),
-    path('students/', include('homework.urls.student_urls')),
+    path("admin/", admin.site.urls),
+    path("homework/", include("homework.urls.homework_urls")),
+    path("presentations/", include("homework.urls.presentation_urls")),
+    path("progress/", include("homework.urls.progress_urls")),
+    path("students/", include("homework.urls.student_urls")),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
