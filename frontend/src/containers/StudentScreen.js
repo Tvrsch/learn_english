@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import StudentCard from "../components/StudentCard";
-import { listStudents } from "../actions/homeworkActions";
+import { listStudents } from "../actions/homework/studentActions";
 
 const HomeworkScreen = () => {
     const dispatch = useDispatch();

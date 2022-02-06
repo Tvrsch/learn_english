@@ -2,7 +2,9 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from "redux-devtools-extension";
 import {postListReducer} from './reducers/postReducers';
-import {studentListReducer, presentationListReducer, progressListReducer} from './reducers/homeworkReducers';
+import {studentListReducer} from './reducers/homework/studentReducers';
+import {presentationListReducer} from './reducers/homework/presentationReducers';
+import {addProgressReducer, progressListReducer} from './reducers/homework/progressReducers';
 
 
 const reducer = combineReducers({
@@ -10,6 +12,7 @@ const reducer = combineReducers({
     studentList: studentListReducer,
     presentationList: presentationListReducer,
     progressList: progressListReducer,
+    addProgress: addProgressReducer,
 });
 
 const initialState = {
