@@ -26,7 +26,7 @@ const PresentationScreen = () => {
         type="button"
         variant="primary"
         className="mx-2"
-        onclick={() => console.log("click")}
+        onClick={() => console.log("click")}
       >
         Add New
       </Button>

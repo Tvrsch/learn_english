@@ -1,45 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Col,
-  Figure,
-  Row,
-  Button,
-  Modal,
-  Form,
-  ListGroup,
-} from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import placeholder from "../placeholder.png";
-import { listPresentations } from "../actions/homework/presentationActions";
-import { listProgress, addProgress } from "../actions/homework/progressActions";
+import { listProgress } from "../actions/homework/progressActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Progress from "../components/Progress";
+import ProgressModal from "../components/progressModal";
 import { useParams } from "react-router";
 
 const StudentProgressDetails = () => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [presentation, setPresentation] = useState("");
 
-  const handleClose = () => setShow(false);
-  const HandleShow = () => {
-    setShow(true);
+  const toggleModal = (state) => {
+    if (state) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
   };
+  function getModalState() {
+    return show;
+  }
 
   const { id } = useParams();
   const { error, loading, progress } = useSelector(
     (state) => state.progressList
   );
-  const presentation_page = 50;
-  const {
-    loading: presentationLoading,
-    error: presentationError,
-    presentations: presentations,
-  } = useSelector((state) => state.presentationList);
 
   const {
     loading: loadingAdd,
@@ -47,10 +36,21 @@ const StudentProgressDetails = () => {
     progress: progressAdd,
   } = useSelector((state) => state.addProgress);
 
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    progress: progressDelete,
+  } = useSelector((state) => state.deleteProgress);
+
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    progress: progressUpdate,
+  } = useSelector((state) => state.updateProgress);
+
   useEffect(() => {
     dispatch(listProgress(id));
-    dispatch(listPresentations());
-  }, [dispatch, progressAdd]);
+  }, [dispatch, progressAdd, progressDelete, progressUpdate]);
 
   return (
     <div>
@@ -61,7 +61,7 @@ const StudentProgressDetails = () => {
         type="button"
         variant="primary"
         className="mx-2"
-        onClick={HandleShow}
+        onClick={() => toggleModal(true)}
       >
         Add New
       </Button>
@@ -84,78 +84,11 @@ const StudentProgressDetails = () => {
       ) : (
         <Loader />
       )}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Input Progress Data</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <ListGroup.Item>
-              <Row>
-                <Col>Presentation</Col>
-                <Col xs="auto" className="my-1">
-                  <Form.Control
-                    as="select"
-                    value={presentation}
-                    onChange={(e) => setPresentation(e.target.value)}
-                  >
-                    {presentationLoading
-                      ? "loader"
-                      : presentationError
-                      ? "error"
-                      : presentations
-                      ? presentations.map((x) => (
-                          <option key={x.id} value={x.id}>
-                            {x.name}
-                          </option>
-                        ))
-                      : "loading"}
-                  </Form.Control>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-              <Row>
-                <Col>Current Slide</Col>
-                <Col xs="auto" className="my-1">
-                  <Form.Control
-                    as="select"
-                    value={qty}
-                    onChange={(e) => setQty(e.target.value)}
-                  >
-                    {[...Array(presentation_page).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              dispatch(
-                addProgress({
-                  presentation_id: presentation,
-                  current_slide: qty,
-                  student_id: id,
-                })
-              );
-              handleClose();
-            }}
-          >
-            Add Progress
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ProgressModal
+        getModalState={getModalState}
+        id={id}
+        toggleModal={toggleModal}
+      />
     </div>
   );
 };
