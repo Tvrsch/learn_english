@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Figure, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -6,17 +6,51 @@ import placeholder from "../placeholder.png";
 import { listPresentations } from "../actions/homework/presentationActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Presentation from "../components/Presentation";
+import Presentation from "../components/PresentationCard";
+import PresentationModal from "../components/PresentationModal";
 
 const PresentationScreen = () => {
   const dispatch = useDispatch();
+
+  const [show, setShow] = useState(false);
+
+  const toggleModal = (state) => {
+    if (state) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
+  function getModalState() {
+    return show;
+  }
+
   const { error, loading, presentations } = useSelector(
     (state) => state.presentationList
   );
 
+  const {
+    loading: loadingAdd,
+    error: errorAdd,
+    presentation: presentationAdd,
+  } = useSelector((state) => state.addPresentation);
+
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    presentation: presentationDelete,
+  } = useSelector((state) => state.deletePresentation);
+
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    presentation: presentationUpdate,
+  } = useSelector((state) => state.updatePresentation);
+
   useEffect(() => {
     dispatch(listPresentations());
-  }, [dispatch]);
+  }, [dispatch, presentationDelete, presentationAdd, presentationUpdate]);
+
   return (
     <div>
       <Link to="/" className="btn btn-dark my-3">
@@ -26,7 +60,7 @@ const PresentationScreen = () => {
         type="button"
         variant="primary"
         className="mx-2"
-        onClick={() => console.log("click")}
+        onClick={toggleModal}
       >
         Add New
       </Button>
@@ -48,6 +82,10 @@ const PresentationScreen = () => {
       ) : (
         <Loader />
       )}
+      <PresentationModal
+        toggleModal={toggleModal}
+        getModalState={getModalState}
+      />
     </div>
   );
 };

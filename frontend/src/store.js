@@ -8,7 +8,12 @@ import {
   studentListReducer,
   studentUpdateReducer,
 } from "./reducers/homework/studentReducers";
-import { presentationListReducer } from "./reducers/homework/presentationReducers";
+import {
+  presentationListReducer,
+  addPresentationReducer,
+  deletePresentationReducer,
+  updatePresentationReducer,
+} from "./reducers/homework/presentationReducers";
 import {
   deleteProgressReducer,
   addProgressReducer,
@@ -23,6 +28,9 @@ const reducer = combineReducers({
   deleteStudent: studentDeleteReducer,
   updateStudent: studentUpdateReducer,
   presentationList: presentationListReducer,
+  addPresentation: addPresentationReducer,
+  deletePresentation: deletePresentationReducer,
+  updatePresentation: updatePresentationReducer,
   progressList: progressListReducer,
   addProgress: addProgressReducer,
   deleteProgress: deleteProgressReducer,

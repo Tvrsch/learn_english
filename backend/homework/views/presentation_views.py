@@ -13,11 +13,16 @@ def get_presentations(request):
 
 @api_view(["POST"])
 def add_presentation(request):
+    name = request.data.get("name", "Sample Name")
+    book = request.data.get("book", "Sample Book")
+    diff_level = request.data.get("diff_level", "Unknown")
+    total_slides = request.data.get("total_slides", 0)
+
     presentation = Presentation.objects.create(
-        name="Sample Name",
-        book="Sample Book",
-        total_slides=0,
-        diff_level="Unknown",
+        name=name,
+        book=book,
+        total_slides=total_slides,
+        diff_level=diff_level,
     )
     serializer = PresentationSerializer(presentation, many=False)
     return Response(serializer.data)
