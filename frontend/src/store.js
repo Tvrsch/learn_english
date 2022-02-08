@@ -20,6 +20,12 @@ import {
   progressListReducer,
   updateProgressReducer,
 } from "./reducers/homework/progressReducers";
+import {
+  addHomeworkReducer,
+  deleteHomeworkReducer,
+  homeworkListReducer,
+  updateHomeworkReducer,
+} from "./reducers/homework/homeworkReducers";
 
 const reducer = combineReducers({
   postList: postListReducer,
@@ -35,6 +41,10 @@ const reducer = combineReducers({
   addProgress: addProgressReducer,
   deleteProgress: deleteProgressReducer,
   updateProgress: updateProgressReducer,
+  homeworkList: homeworkListReducer,
+  addHomework: addHomeworkReducer,
+  deleteHomework: deleteHomeworkReducer,
+  updateHomework: updateHomeworkReducer,
 });
 
 const initialState = {

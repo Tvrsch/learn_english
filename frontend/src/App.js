@@ -6,6 +6,7 @@ import Home from "./containers/Home";
 import StudentScreen from "./containers/StudentScreen";
 import PresentationScreen from "./containers/PresentationScreen";
 import StudentProgressDetails from "./containers/StudentProgressScreen";
+import HomeworkScreen from "./containers/HomeworkScreen";
 
 const App = () => {
   return (
@@ -24,10 +25,7 @@ const App = () => {
             </Route>
             <Route path="/presentations">
               <Route path="/presentations" element={<PresentationScreen />} />
-              <Route
-                path="/presentations/:id"
-                element={<PresentationScreen />}
-              />
+              <Route path="/presentations/:id" element={<HomeworkScreen />} />
             </Route>
           </Routes>
         </Container>
