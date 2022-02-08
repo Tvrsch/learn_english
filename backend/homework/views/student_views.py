@@ -13,10 +13,14 @@ def get_students(request):
 
 @api_view(["POST"])
 def add_student(request):
+    name = request.data.get("name")
+    mail = request.data.get("mail")
+    diff_level = request.data.get("diff_level")
+
     student = Student.objects.create(
-        name="Sample Name",
-        mail="sample@mail.ru",
-        diff_level="Unknown",
+        name=name if name else "Sample Name",
+        mail=mail if mail else "sample@mail.ru",
+        diff_level=diff_level if diff_level else "Unknown",
     )
     serializer = StudentSerializer(student, many=False)
     return Response(serializer.data)

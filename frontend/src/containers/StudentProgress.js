@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { listProgress } from "../actions/homework/progressActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Progress from "../components/Progress";
-import ProgressModal from "../components/progressModal";
+import ProgressCard from "../components/ProgressCard";
+import ProgressModal from "../components/ProgressModal";
 import { useParams } from "react-router";
 
 const StudentProgressDetails = () => {
@@ -76,7 +76,7 @@ const StudentProgressDetails = () => {
           <Row>
             {progress.map((progressPresentation) => (
               <Col key={progressPresentation.id} sm={12} md={6} lg={4} xl={3}>
-                <Progress progress={progressPresentation} />
+                <ProgressCard progress={progressPresentation} />
               </Col>
             ))}
           </Row>

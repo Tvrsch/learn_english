@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { deleteStudent } from "../actions/homework/studentActions";
+import StudentModal from "./StudentModal";
 
 const StudentCard = ({ student }) => {
+  const dispatch = useDispatch();
+
+  const [show, setShow] = useState(false);
+
+  const toggleModal = (state) => {
+    if (state) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
+  function getModalState() {
+    return show;
+  }
+
+  const deleteHandler = () => {
+    if (window.confirm("Are you sure you want to delete this student?")) {
+      dispatch(deleteStudent(student.id));
+    }
+  };
+
+  const updateHandler = () => {
+    toggleModal(true);
+  };
+
   return (
     <Card className="my-3 p-3 rounder">
       <Link to={`/students/${student.id}`}>
@@ -25,7 +53,7 @@ const StudentCard = ({ student }) => {
           type="button"
           variant="primary"
           className="mx-2"
-          onClick={() => console.log("click")}
+          onClick={updateHandler}
         >
           Edit
         </Button>
@@ -33,11 +61,16 @@ const StudentCard = ({ student }) => {
           type="button"
           variant="primary"
           className="mx-2"
-          onClick={() => console.log("click")}
+          onClick={deleteHandler}
         >
           Delete
         </Button>
       </Card.Body>
+      <StudentModal
+        getModalState={getModalState}
+        toggleModal={toggleModal}
+        student={student}
+      />
     </Card>
   );
 };

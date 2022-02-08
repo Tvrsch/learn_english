@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Figure, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -6,16 +6,48 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import StudentCard from "../components/StudentCard";
 import { listStudents } from "../actions/homework/studentActions";
+import StudentModal from "../components/StudentModal";
 
 const HomeworkScreen = () => {
   const dispatch = useDispatch();
+
+  const [show, setShow] = useState(false);
+
+  const toggleModal = (state) => {
+    if (state) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
+  function getModalState() {
+    return show;
+  }
   const { error, loading, students } = useSelector(
     (state) => state.studentList
   );
 
+  const {
+    loading: loadingAdd,
+    error: errorAdd,
+    student: studentAdd,
+  } = useSelector((state) => state.addStudent);
+
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    student: studentDelete,
+  } = useSelector((state) => state.deleteStudent);
+
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    student: studentUpdate,
+  } = useSelector((state) => state.updateStudent);
+
   useEffect(() => {
     dispatch(listStudents());
-  }, [dispatch]);
+  }, [dispatch, studentDelete, studentAdd, studentUpdate]);
 
   return (
     <div>
@@ -26,7 +58,7 @@ const HomeworkScreen = () => {
         type="button"
         variant="primary"
         className="mx-2"
-        onClick={() => console.log("click")}
+        onClick={toggleModal}
       >
         Add New
       </Button>
@@ -48,6 +80,7 @@ const HomeworkScreen = () => {
       ) : (
         <Loader />
       )}
+      <StudentModal toggleModal={toggleModal} getModalState={getModalState} />
     </div>
   );
 };

@@ -11,7 +11,7 @@ import {
   UPDATE_PROGRESS_REQUEST,
   UPDATE_PROGRESS_SUCCESS,
   UPDATE_PROGRESS_FAIL,
-} from "../../constants/homeworkConstants";
+} from "../../constants/progressConstants";
 
 import axios from "axios";
 

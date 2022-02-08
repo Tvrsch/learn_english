@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Button } from "react-bootstrap";
-import {
-  deleteProgress,
-  updateProgress,
-} from "../actions/homework/progressActions";
-import ProgressModal from "../components/progressModal";
+import { deleteProgress } from "../actions/homework/progressActions";
+import ProgressModal from "./ProgressModal";
 
-const Progress = ({ progress }) => {
+const ProgressCard = ({ progress }) => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -88,4 +85,4 @@ const Progress = ({ progress }) => {
   );
 };
 
-export default Progress;
+export default ProgressCard;
