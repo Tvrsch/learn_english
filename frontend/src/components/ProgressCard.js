@@ -3,11 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import { deleteProgress } from "../actions/homework/progressActions";
 import ProgressModal from "./ProgressModal";
+import HomeworkSendModal from "./HomeworkSendModal";
+import { useParams } from "react-router";
+import { generateHomework } from "../actions/homework/homeworkActions";
 
 const ProgressCard = ({ progress }) => {
   const dispatch = useDispatch();
 
+  const { id } = useParams();
+
   const [show, setShow] = useState(false);
+  const [send, setSend] = useState(false);
 
   const toggleModal = (state) => {
     if (state) {
@@ -20,6 +26,17 @@ const ProgressCard = ({ progress }) => {
     return show;
   }
 
+  const toggleHomework = (state) => {
+    if (state) {
+      setSend(true);
+    } else {
+      setSend(false);
+    }
+  };
+  function getHomeworkState() {
+    return send;
+  }
+
   const deleteHandler = () => {
     if (window.confirm("Are you sure you want to delete this progress?")) {
       dispatch(deleteProgress(progress.id));
@@ -28,6 +45,16 @@ const ProgressCard = ({ progress }) => {
 
   const updateHandler = () => {
     toggleModal(true);
+  };
+
+  const sendHandler = () => {
+    dispatch(
+      generateHomework({
+        presentation_name: progress.presentation,
+        current_slide: progress.current_slide,
+      })
+    );
+    toggleHomework(true);
   };
 
   return (
@@ -70,7 +97,7 @@ const ProgressCard = ({ progress }) => {
           type="button"
           variant="primary"
           className="mx-1"
-          onClick={() => console.log("click")}
+          onClick={sendHandler}
         >
           Send Homework
         </Button>
@@ -79,6 +106,11 @@ const ProgressCard = ({ progress }) => {
         getModalState={getModalState}
         id={progress.id}
         toggleModal={toggleModal}
+        progress={progress}
+      />
+      <HomeworkSendModal
+        getModalState={getHomeworkState}
+        toggleModal={toggleHomework}
         progress={progress}
       />
     </Card>

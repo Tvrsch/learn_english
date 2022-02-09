@@ -47,3 +47,27 @@ def delete_homework(request, pk):
     homework.delete()
 
     return Response("Homework Deleted")
+
+
+def generate_homework(paragraph_query):
+    task_list = []
+    for idx, paragraph in enumerate(paragraph_query):
+        task_list.append(f"{idx + 1}. {paragraph.task_text}")
+    homework = "\n".join(task_list)
+    return homework
+
+
+@api_view(["GET"])
+def get_generated_homework(request):
+    presentation_name = request.query_params.get("presentation_name")
+    print(presentation_name)
+    current_slide = request.query_params.get("current_slide")
+    presentation = Presentation.objects.get(name=presentation_name)
+
+    homework_paragraphs = HomeworkParagraph.objects.filter(
+        presentation=presentation, slides_required__lte=current_slide
+    )
+
+    homework = generate_homework(homework_paragraphs)
+    print(homework)
+    return Response({"homework": homework})

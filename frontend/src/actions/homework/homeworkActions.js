@@ -11,6 +11,9 @@ import {
   UPDATE_HOMEWORK_REQUEST,
   UPDATE_HOMEWORK_SUCCESS,
   UPDATE_HOMEWORK_FAIL,
+  GENERATE_HOMEWORK_REQUEST,
+  GENERATE_HOMEWORK_SUCCESS,
+  GENERATE_HOMEWORK_FAIL,
 } from "../../constants/homeworkConstants";
 
 import axios from "axios";
@@ -110,3 +113,27 @@ export const updateHomework = (homework, id) => async (dispatch) => {
     });
   }
 };
+
+export const generateHomework =
+  ({ presentation_name, current_slide }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: GENERATE_HOMEWORK_REQUEST });
+      const { data } = await axios.get(
+        `/homework/generate/?presentation_name=${presentation_name}&current_slide=${current_slide}`
+      );
+
+      dispatch({
+        type: GENERATE_HOMEWORK_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GENERATE_HOMEWORK_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

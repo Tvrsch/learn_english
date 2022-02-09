@@ -23,6 +23,7 @@ import {
 import {
   addHomeworkReducer,
   deleteHomeworkReducer,
+  generateHomeworkReducer,
   homeworkListReducer,
   updateHomeworkReducer,
 } from "./reducers/homework/homeworkReducers";
@@ -45,6 +46,7 @@ const reducer = combineReducers({
   addHomework: addHomeworkReducer,
   deleteHomework: deleteHomeworkReducer,
   updateHomework: updateHomeworkReducer,
+  generateHomework: generateHomeworkReducer,
 });
 
 const initialState = {
