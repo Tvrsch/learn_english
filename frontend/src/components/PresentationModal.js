@@ -47,7 +47,7 @@ function PresentationModal({ getModalState, toggleModal, presentation }) {
     const formData = new FormData();
 
     formData.append("image", file);
-    // formData.append("presentation_id", presentationId);
+    formData.append("presentation_id", presentation.id);
     setUploading(true);
     try {
       const config = {
@@ -56,7 +56,7 @@ function PresentationModal({ getModalState, toggleModal, presentation }) {
         },
       };
       const { data } = await axios.post(
-        "/api/products/upload/",
+        "/presentations/upload/",
         formData,
         config
       );

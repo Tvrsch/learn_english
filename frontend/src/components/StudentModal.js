@@ -32,7 +32,7 @@ function StudentModal({ getModalState, toggleModal, student }) {
     const formData = new FormData();
 
     formData.append("image", file);
-    // formData.append("student_id", studentId);
+    formData.append("student_id", student.id);
     setUploading(true);
     try {
       const config = {
@@ -41,7 +41,7 @@ function StudentModal({ getModalState, toggleModal, student }) {
         },
       };
       const { data } = await axios.post(
-        "/api/products/upload/",
+        "/students/upload/",
         formData,
         config
       );

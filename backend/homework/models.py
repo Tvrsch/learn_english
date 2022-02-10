@@ -27,7 +27,7 @@ class Presentation(models.Model):
 
 
 class HomeworkParagraph(models.Model):
-    presentation = models.ForeignKey(Presentation, on_delete=models.SET_NULL, null=True)
+    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True)
     task_text = models.TextField(null=True, blank=True)
     slides_required = models.IntegerField(null=False, blank=False, default=0)
 
@@ -36,8 +36,8 @@ class HomeworkParagraph(models.Model):
 
 
 class StudentProgress(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
-    presentation = models.ForeignKey(Presentation, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True)
     current_slide = models.IntegerField(null=True, blank=True, default=0)
 
     def __str__(self):
