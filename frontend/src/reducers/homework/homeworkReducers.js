@@ -14,6 +14,9 @@ import {
   GENERATE_HOMEWORK_REQUEST,
   GENERATE_HOMEWORK_SUCCESS,
   GENERATE_HOMEWORK_FAIL,
+  SEND_HOMEWORK_REQUEST,
+  SEND_HOMEWORK_SUCCESS,
+  SEND_HOMEWORK_FAIL,
 } from "../../constants/homeworkConstants";
 
 export const homeworkListReducer = (state = { homework: [] }, action) => {
@@ -89,6 +92,22 @@ export const generateHomeworkReducer = (state = {}, action) => {
       return { loading: false, homework: action.payload };
 
     case GENERATE_HOMEWORK_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const sendHomeworkReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SEND_HOMEWORK_REQUEST:
+      return { loading: true, homework: {} };
+
+    case SEND_HOMEWORK_SUCCESS:
+      return { loading: false, homework: action.payload };
+
+    case SEND_HOMEWORK_FAIL:
       return { loading: false, error: action.payload };
 
     default:

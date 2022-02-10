@@ -14,6 +14,9 @@ import {
   GENERATE_HOMEWORK_REQUEST,
   GENERATE_HOMEWORK_SUCCESS,
   GENERATE_HOMEWORK_FAIL,
+  SEND_HOMEWORK_REQUEST,
+  SEND_HOMEWORK_SUCCESS,
+  SEND_HOMEWORK_FAIL,
 } from "../../constants/homeworkConstants";
 
 import axios from "axios";
@@ -137,3 +140,29 @@ export const generateHomework =
       });
     }
   };
+
+  export const sendHomework = (homework) => async (dispatch) => {
+    try {
+      dispatch({ type: SEND_HOMEWORK_REQUEST });
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(`/homework/send/`, homework, config);
+  
+      dispatch({
+        type: SEND_HOMEWORK_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SEND_HOMEWORK_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+

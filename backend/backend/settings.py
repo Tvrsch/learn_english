@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-=guu%jx2vig@i8k=6n7kda4o9h-(w__fcg4!9cg2t)s-snkp^u"
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -130,3 +135,12 @@ MEDIA_ROOT = "static/images"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# E-Mail Settings
+DEFAULT_FROM_EMAIL = os.environ["DJANGO_MAIL_ACC"]
+
+EMAIL_HOST = "smtp.mail.ru"
+EMAIL_HOST_USER = os.environ["DJANGO_MAIL_ACC"]
+EMAIL_HOST_PASSWORD = os.environ["DJANGO_MAIL_PASS"]
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True

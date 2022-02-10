@@ -25,6 +25,7 @@ import {
   deleteHomeworkReducer,
   generateHomeworkReducer,
   homeworkListReducer,
+  sendHomeworkReducer,
   updateHomeworkReducer,
 } from "./reducers/homework/homeworkReducers";
 
@@ -47,6 +48,7 @@ const reducer = combineReducers({
   deleteHomework: deleteHomeworkReducer,
   updateHomework: updateHomeworkReducer,
   generateHomework: generateHomeworkReducer,
+  sendHomework: sendHomeworkReducer,
 });
 
 const initialState = {

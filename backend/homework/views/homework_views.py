@@ -1,7 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from homework.models import HomeworkParagraph, Presentation
+from homework.models import HomeworkParagraph, Presentation, Student
 from homework.serializers import HomeworkParagraphSerializer
+from homework.services import generate_homework
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 @api_view(["GET"])
@@ -9,9 +12,7 @@ def get_homework_paragraphs(request):
     presentation_id = request.query_params.get("presentation_id")
     presentation = Presentation.objects.get(id=presentation_id)
 
-    homework_paragraphs = HomeworkParagraph.objects.filter(
-        presentation=presentation
-    )
+    homework_paragraphs = HomeworkParagraph.objects.filter(presentation=presentation)
 
     serializer = HomeworkParagraphSerializer(homework_paragraphs, many=True)
     return Response(serializer.data)
@@ -41,20 +42,13 @@ def update_homework_paragraph(request, pk):
     serializer = HomeworkParagraphSerializer(paragraph, many=False)
     return Response(serializer.data)
 
+
 @api_view(["DELETE"])
 def delete_homework(request, pk):
     homework = HomeworkParagraph.objects.get(id=pk)
     homework.delete()
 
     return Response("Homework Deleted")
-
-
-def generate_homework(paragraph_query):
-    task_list = []
-    for idx, paragraph in enumerate(paragraph_query):
-        task_list.append(f"{idx + 1}. {paragraph.task_text}")
-    homework = "\n".join(task_list)
-    return homework
 
 
 @api_view(["GET"])
@@ -69,5 +63,17 @@ def get_generated_homework(request):
     )
 
     homework = generate_homework(homework_paragraphs)
-    print(homework)
     return Response({"homework": homework})
+
+
+@api_view(["POST"])
+def send_homework(request):
+    data = request.data
+    student = Student.objects.get(id=data.get("student_id"))
+    send_mail(
+        data.get("subject"),
+        data.get("homework"),
+        settings.DEFAULT_FROM_EMAIL,
+        [student.mail],
+    )
+    return Response({"success": True})
