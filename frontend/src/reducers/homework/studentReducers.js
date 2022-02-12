@@ -19,7 +19,7 @@ export const studentListReducer = (state = { students: [] }, action) => {
       return { loading: true, students: [] };
 
     case GET_STUDENTS_SUCCESS:
-      return { loading: false, students: action.payload };
+      return { loading: false, students: action.payload.students, page: action.payload.page, pages: action.payload.pages };
 
     case GET_STUDENTS_FAIL:
       return { loading: false, error: action.payload };

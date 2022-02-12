@@ -25,7 +25,7 @@ export const homeworkListReducer = (state = { homework: [] }, action) => {
       return { loading: true, homework: [] };
 
     case GET_HOMEWORK_SUCCESS:
-      return { loading: false, homework: action.payload };
+      return { loading: false, homework: action.payload.homework, page: action.payload.page, pages: action.payload.pages };
 
     case GET_HOMEWORK_FAIL:
       return { loading: false, error: action.payload };

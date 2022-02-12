@@ -8,9 +8,14 @@ import Message from "../components/Message";
 import ProgressCard from "../components/ProgressCard";
 import ProgressModal from "../components/ProgressModal";
 import { useParams } from "react-router";
+import { useLocation } from 'react-router-dom';
+import Paginate from "../components/Paginate";
 
 const StudentProgressDetails = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  let keyword = location.search;
 
   const [show, setShow] = useState(false);
 
@@ -26,7 +31,7 @@ const StudentProgressDetails = () => {
   }
 
   const { id } = useParams();
-  const { error, loading, progress } = useSelector(
+  const { error, loading, progress, page, pages } = useSelector(
     (state) => state.progressList
   );
 
@@ -49,8 +54,8 @@ const StudentProgressDetails = () => {
   } = useSelector((state) => state.updateProgress);
 
   useEffect(() => {
-    dispatch(listProgress(id));
-  }, [dispatch, progressAdd, progressDelete, progressUpdate]);
+    dispatch(listProgress(id, keyword));
+  }, [dispatch, progressAdd, progressDelete, progressUpdate, keyword]);
 
   return (
     <div>
@@ -89,6 +94,7 @@ const StudentProgressDetails = () => {
         id={id}
         toggleModal={toggleModal}
       />
+      <Paginate page={page} pages={pages} path={location.pathname} />
     </div>
   );
 };

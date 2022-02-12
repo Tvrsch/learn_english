@@ -21,18 +21,9 @@ const Header = () => {
                         <Navbar.Brand>Главная</Navbar.Brand>
                     </LinkContainer>
                     <Nav className="me-auto">
-                        <LinkContainer to="/about">
-                            <Nav.Link>О Себе</Nav.Link>
-                        </LinkContainer>
 
                         <LinkContainer to="/my-account">
                             <Nav.Link>Личный Кабинет</Nav.Link>
-                        </LinkContainer>
-
-                        <LinkContainer to="/test">
-                            <Nav.Link>
-                                Тест на уровень Английского языка
-                            </Nav.Link>
                         </LinkContainer>
 
                         <LinkContainer to="/students">

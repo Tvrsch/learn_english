@@ -27,8 +27,8 @@ def update_student_(data: dict, pk: int) -> Student:
     return student
 
 
-def upload_image_(data: dict) -> str:
-    student_id = data["student_id"]
+def upload_image_(request) -> str:
+    student_id = request.data["student_id"]
     student = Student.objects.get(id=student_id)
 
     student.picture = request.FILES.get("image")

@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from homework.models import Presentation
 from homework.serializers import PresentationSerializer
 from homework.services.presentation_services import (
@@ -12,8 +13,23 @@ from homework.services.presentation_services import (
 @api_view(["GET"])
 def get_presentations(request):
     presentations = Presentation.objects.all()
+    page = request.query_params.get("page")
+    paginator = Paginator(presentations, 4)
+
+    try:
+        presentations = paginator.page(page)
+    except PageNotAnInteger:
+        presentations = paginator.page(1)
+    except EmptyPage:
+        presentations = paginator.page(paginator.num_pages)
+
+    if not page:
+        page = 1
+    page = int(page)
     serializer = PresentationSerializer(presentations, many=True)
-    return Response(serializer.data)
+    return Response(
+        {"presentations": serializer.data, "page": page, "pages": paginator.num_pages}
+    )
 
 
 @api_view(["POST"])

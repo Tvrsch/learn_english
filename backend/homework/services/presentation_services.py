@@ -31,8 +31,8 @@ def update_presentation_(data: dict, pk: int) -> Presentation:
     return presentation
 
 
-def upload_image_(data: dict) -> str:
-    presentation_id = data["presentation_id"]
+def upload_image_(request) -> str:
+    presentation_id = request.data["presentation_id"]
     presentation = Presentation.objects.get(id=presentation_id)
 
     presentation.picture = request.FILES.get("image")

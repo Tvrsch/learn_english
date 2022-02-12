@@ -8,9 +8,14 @@ import Message from "../components/Message";
 import HomeworkCard from "../components/HomeworkCard";
 import HomeworkModal from "../components/HomeworkModal";
 import { useParams } from "react-router";
+import { useLocation } from 'react-router-dom';
+import Paginate from "../components/Paginate";
 
 const HomeworkDetails = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  let keyword = location.search;
 
   const [show, setShow] = useState(false);
 
@@ -26,7 +31,7 @@ const HomeworkDetails = () => {
   }
 
   const { id } = useParams();
-  const { error, loading, homework } = useSelector(
+  const { error, loading, homework, page, pages } = useSelector(
     (state) => state.homeworkList
   );
 
@@ -49,8 +54,8 @@ const HomeworkDetails = () => {
   } = useSelector((state) => state.updateHomework);
 
   useEffect(() => {
-    dispatch(listHomework(id));
-  }, [dispatch, homeworkAdd, homeworkDelete, homeworkUpdate]);
+    dispatch(listHomework(id, keyword));
+  }, [dispatch, homeworkAdd, homeworkDelete, homeworkUpdate, keyword]);
 
   return (
     <div>
@@ -89,6 +94,7 @@ const HomeworkDetails = () => {
         id={id}
         toggleModal={toggleModal}
       />
+      <Paginate page={page} pages={pages} path={location.pathname} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from homework.models import HomeworkParagraph, Presentation, Student
 from homework.serializers import HomeworkParagraphSerializer
 from django.conf import settings
@@ -18,8 +19,27 @@ def get_homework_paragraphs(request):
     homework_paragraphs = get_homework_paragraphs_by_id(
         request.query_params.get("presentation_id")
     )
+    page = request.query_params.get("page")
+    paginator = Paginator(homework_paragraphs, 4)
+
+    try:
+        homework_paragraphs = paginator.page(page)
+    except PageNotAnInteger:
+        homework_paragraphs = paginator.page(1)
+    except EmptyPage:
+        homework_paragraphs = paginator.page(paginator.num_pages)
+
+    if not page:
+        page = 1
+    page = int(page)
     serializer = HomeworkParagraphSerializer(homework_paragraphs, many=True)
-    return Response(serializer.data)
+    return Response(
+        {
+            "homework": serializer.data,
+            "page": page,
+            "pages": paginator.num_pages,
+        }
+    )
 
 
 @api_view(["POST"])

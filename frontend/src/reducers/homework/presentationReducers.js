@@ -22,7 +22,7 @@ export const presentationListReducer = (
       return { loading: true, presentations: [] };
 
     case GET_PRESENTATIONS_SUCCESS:
-      return { loading: false, presentations: action.payload };
+      return { loading: false, presentations: action.payload.presentations, page: action.payload.page, pages: action.payload.pages };
 
     case GET_PRESENTATIONS_FAIL:
       return { loading: false, error: action.payload };

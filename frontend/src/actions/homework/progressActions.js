@@ -15,11 +15,12 @@ import {
 
 import axios from "axios";
 
-export const listProgress = (id) => async (dispatch) => {
+export const listProgress = (id, keyword= "") => async (dispatch) => {
+  const delimiter = (keyword ? "&" : "?")
   try {
     dispatch({ type: GET_PROGRESS_REQUEST });
 
-    const { data } = await axios.get(`/progress/?student_id=${id}`);
+    const { data } = await axios.get(`/progress/${keyword}${delimiter}student_id=${id}`);
 
     dispatch({
       type: GET_PROGRESS_SUCCESS,

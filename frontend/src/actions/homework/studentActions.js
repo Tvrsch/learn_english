@@ -15,11 +15,11 @@ import {
 
 import axios from "axios";
 
-export const listStudents = () => async (dispatch) => {
+export const listStudents = (keyword= "") => async (dispatch) => {
   try {
     dispatch({ type: GET_STUDENTS_REQUEST });
 
-    const { data } = await axios.get(`/students`);
+    const { data } = await axios.get(`/students${keyword}`);
 
     dispatch({
       type: GET_STUDENTS_SUCCESS,

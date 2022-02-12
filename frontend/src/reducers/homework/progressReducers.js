@@ -19,7 +19,7 @@ export const progressListReducer = (state = { progress: [] }, action) => {
       return { loading: true, progress: [] };
 
     case GET_PROGRESS_SUCCESS:
-      return { loading: false, progress: action.payload };
+      return { loading: false, progress: action.payload.progress, page: action.payload.page, pages: action.payload.pages };
 
     case GET_PROGRESS_FAIL:
       return { loading: false, error: action.payload };

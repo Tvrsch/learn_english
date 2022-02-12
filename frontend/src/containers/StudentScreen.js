@@ -7,9 +7,14 @@ import Message from "../components/Message";
 import StudentCard from "../components/StudentCard";
 import { listStudents } from "../actions/homework/studentActions";
 import StudentModal from "../components/StudentModal";
+import { useLocation } from 'react-router-dom';
+import Paginate from "../components/Paginate";
 
 const HomeworkScreen = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  let keyword = location.search;
 
   const [show, setShow] = useState(false);
 
@@ -23,7 +28,7 @@ const HomeworkScreen = () => {
   function getModalState() {
     return show;
   }
-  const { error, loading, students } = useSelector(
+  const { error, loading, students, page, pages } = useSelector(
     (state) => state.studentList
   );
 
@@ -46,8 +51,8 @@ const HomeworkScreen = () => {
   } = useSelector((state) => state.updateStudent);
 
   useEffect(() => {
-    dispatch(listStudents());
-  }, [dispatch, studentDelete, studentAdd, studentUpdate]);
+    dispatch(listStudents(keyword));
+  }, [dispatch, studentDelete, studentAdd, studentUpdate, keyword]);
 
   return (
     <div>
@@ -81,6 +86,7 @@ const HomeworkScreen = () => {
         <Loader />
       )}
       <StudentModal toggleModal={toggleModal} getModalState={getModalState} />
+      <Paginate page={page} pages={pages} path={location.pathname} />
     </div>
   );
 };

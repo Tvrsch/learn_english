@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from homework.models import Student
 from homework.serializers import StudentSerializer
 from homework.services.student_services import (
@@ -12,8 +13,23 @@ from homework.services.student_services import (
 @api_view(["GET"])
 def get_students(request):
     students = Student.objects.all()
+    page = request.query_params.get("page")
+    paginator = Paginator(students, 4)
+
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+
+    if not page:
+        page = 1
+    page = int(page)
     serializer = StudentSerializer(students, many=True)
-    return Response(serializer.data)
+    return Response(
+        {"students": serializer.data, "page": page, "pages": paginator.num_pages}
+    )
 
 
 @api_view(["POST"])

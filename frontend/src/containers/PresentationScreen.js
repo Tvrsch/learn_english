@@ -8,9 +8,14 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Presentation from "../components/PresentationCard";
 import PresentationModal from "../components/PresentationModal";
+import { useLocation } from 'react-router-dom';
+import Paginate from "../components/Paginate";
 
 const PresentationScreen = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  let keyword = location.search;
 
   const [show, setShow] = useState(false);
 
@@ -25,7 +30,7 @@ const PresentationScreen = () => {
     return show;
   }
 
-  const { error, loading, presentations } = useSelector(
+  const { error, loading, presentations, page, pages } = useSelector(
     (state) => state.presentationList
   );
 
@@ -48,8 +53,8 @@ const PresentationScreen = () => {
   } = useSelector((state) => state.updatePresentation);
 
   useEffect(() => {
-    dispatch(listPresentations());
-  }, [dispatch, presentationDelete, presentationAdd, presentationUpdate]);
+    dispatch(listPresentations(keyword));
+  }, [dispatch, presentationDelete, presentationAdd, presentationUpdate, keyword]);
 
   return (
     <div>
@@ -86,6 +91,7 @@ const PresentationScreen = () => {
         toggleModal={toggleModal}
         getModalState={getModalState}
       />
+      <Paginate page={page} pages={pages} path={location.pathname} />
     </div>
   );
 };
