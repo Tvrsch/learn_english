@@ -35,7 +35,6 @@ def get_student_progress(request):
 
 @api_view(["POST"])
 def add_student_progress(request):
-    data = request.data
     progress = upsert_student_progress_(request.data)
     serializer = StudentProgressSerializer(progress, many=False)
     return Response(serializer.data)

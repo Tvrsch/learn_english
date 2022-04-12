@@ -18,7 +18,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
+    path("user/", include("homework.urls.user_urls")),
+    # path("refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("admin/", admin.site.urls),
     path("homework/", include("homework.urls.homework_urls")),
     path("presentations/", include("homework.urls.presentation_urls")),

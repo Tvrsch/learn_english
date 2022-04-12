@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Student, Presentation, HomeworkParagraph, StudentProgress
 
 
@@ -46,3 +48,37 @@ class StudentProgressSerializer(serializers.ModelSerializer):
 
     def get_total_slides(self, obj):
         return obj.presentation.total_slides
+
+
+class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField(read_only=True)
+    _id = serializers.SerializerMethodField(read_only=True)
+    is_admin = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "_id", "username", "email", "name", "is_admin"]
+
+    def get__id(self, obj):
+        return obj.id
+
+    def get_is_admin(self, obj):
+        return obj.is_staff
+
+    def get_name(self, obj):
+        name = getattr(obj, "first_name", None)
+        if not name:
+            name = obj.email
+        return name
+
+
+class UserSerializerWithToken(UserSerializer):
+    token = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "_id", "username", "email", "name", "is_admin", "token"]
+
+    def get_token(self, obj):
+        token = RefreshToken.for_user(obj)
+        return str(token.access_token)

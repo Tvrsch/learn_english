@@ -28,6 +28,15 @@ import {
   sendHomeworkReducer,
   updateHomeworkReducer,
 } from "./reducers/homework/homeworkReducers";
+import {
+  userDeleteReducer,
+  userDetailsReducer,
+  userListReducer,
+  userLoginReducer,
+  userRegisterReducer,
+  userUpdateProfileReducer,
+  userUpdateReducer
+} from "./reducers/homework/userReducers";
 
 const reducer = combineReducers({
   postList: postListReducer,
@@ -49,13 +58,24 @@ const reducer = combineReducers({
   updateHomework: updateHomeworkReducer,
   generateHomework: generateHomeworkReducer,
   sendHomework: sendHomeworkReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
 });
+
+const userInfoFromStorage = localStorage.getItem('userInfo') ?
+    JSON.parse(localStorage.getItem('userInfo')) : null
 
 const initialState = {
   postList: [],
   studentList: [],
   presentationList: [],
   progressList: [],
+  userLogin:{userInfo: userInfoFromStorage}
 };
 
 const middleware = [thunk];
